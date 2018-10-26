@@ -4,10 +4,10 @@
     <version>0.0.1</version>
     <description>ROS powered REPBot</description>
 
-    <maintainer email="zhiquan.yeo AT gmail.com">ZQ Yeo</maintainer>
+    <maintainer email="zhiquan.yeo@gmail.com">ZQ Yeo</maintainer>
     <license>Apache 2.0</license>
 
-    <author email="zhiquan.yeo AT gmail.com">ZQ Yeo</author>
+    <author email="zhiquan.yeo@gmail.com">ZQ Yeo</author>
     <buildtool_depend>catkin</buildtool_depend>
     <run_depend>std_msgs</run_depend>
 </package>
