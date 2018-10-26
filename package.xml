@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-    <name>repbot_ros</name>
+    <name>repbot_base</name>
     <version>0.0.1</version>
     <description>ROS powered REPBot</description>
 
