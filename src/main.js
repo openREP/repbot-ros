@@ -10,6 +10,9 @@ const WHEEL_DIAMETER_M = 0.07; // 70mm
 const MAX_MOTOR_VOLTAGE = 0.75 * 9; // Nominal 9 volts, but software limited to 3/4
 const MAX_RPM = 225; // 33.3333... RPM per volt
 
+// Max wheel velocity is (wheel cirumference * max rpm) / 60
+const MAX_WHEEL_VELOCITY = ((Math.PI * WHEEL_DIAMETER_M) * MAX_RPM) / 60;
+
 // Actual robot hardware
 const robot = new RepBot(ROMI_ROBOT);
 
