@@ -59,8 +59,8 @@ module.exports = {
                         type: "motor"
                     },
                     {
-                        channel: 0,
-                        deviceChannel: 0,
+                        channel: 1,
+                        deviceChannel: 1,
                         type: "motor"
                     }
                 ],
