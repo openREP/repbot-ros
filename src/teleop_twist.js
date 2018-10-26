@@ -2,7 +2,9 @@
 
 const RosNodeJS = require("rosnodejs");
 
-RosNodeJS.initNode("/teleop_twist_node")
+// TODO This node will take in sensor_msgs/Joy messages and convert
+// to geometry_msgs/Twist messages
+RosNodeJS.initNode("/repbot_teleop_twist")
 .then(() => {
 
 });
