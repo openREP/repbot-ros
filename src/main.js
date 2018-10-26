@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const RepBot = require("@openrep/repbot");
 const RosNodeJS = require("rosnodejs");
 
