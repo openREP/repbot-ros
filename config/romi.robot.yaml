@@ -1,0 +1,60 @@
+# Physical Attributes
+wheel_diameter: 0.07 # in meters
+wheel_to_wheel_distance: 0.165 # in meters, center to center
+
+rpm_per_volt: 33.333
+max_motor_voltage: 6.75 # for the romi, this is 75% of 9V
+
+# Control hardware
+hardware:
+  devices:
+    - name: romi
+      type: romi
+      device_config:
+        address: 0x14
+      port_mapping:
+        digital: 
+          - channel: 0
+            device_channel: 0
+            direction: out
+          - channel: 1
+            device_channel: 1
+            direction: out
+          - channel: 2
+            device_channel: 2
+            direction: out
+          - channel: 3
+            device_channel: 3
+            direction: in
+          - channel: 4
+            device_channel: 4
+            direction: in
+          - channel: 5
+            device_channel: 5
+            direction: in
+          
+        analog:
+          - channel: 0
+            device_channel: 0
+          - channel: 1
+            device_channel: 1
+          - channel: 2
+            device_channel: 2
+        pwm: 
+          - channel: 0
+            device_channel: 0
+            type: motor
+          - channel: 1
+            device_channel: 1
+            type: motor
+        encoder: 
+          - channel: 0
+            device_channel: 0
+          - channel: 1
+            device_channel: 1
+        gyro: 
+          - channel: 0
+            device_channel: 0
+        accelerometer: 
+          - channel: 0
+            device_channel: 0
