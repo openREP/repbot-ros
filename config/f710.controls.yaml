@@ -1,0 +1,5 @@
+# define the controls for the Logitech F710
+axis_linear: 1 
+axis_angular: 0
+
+enable_button: 4 # left shoulder
