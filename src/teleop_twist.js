@@ -5,7 +5,9 @@ const ROSNodeUtil = require("./utils/ros-node-util");
 
 const REQUIRED_PARAMS = [
     { name: "axis_linear", defaultVal: 0 },
+    { name: "axis_linear_scale", defaultVal: 1.0 },
     { name: "axis_angular", defaultVal: 1 },
+    { name: "axis_angular_scale", defaultVal: 1.0 },
     { name: "enable_button", defaultVal: 0 },
     { name: "wheel_diameter", defaultVal: 0.01 },
     { name: "wheel_to_wheel_distance", defaultVal: 0.05 },
@@ -18,7 +20,20 @@ const DEFAULT_NODE_NAME = "/repbot_teleop_twist";
 
 ROSNodeUtil.initializeNode(DEFAULT_NODE_NAME, process.argv.slice(2), REQUIRED_PARAMS)
 .then((nodeAndParams) => {
-    const { nodeHandle, params } = nodeAndParams;
+    const { nodeHandle, params, logger } = nodeAndParams;
+
+    let linearScale = params["axis_linear_scale"];
+    let angularScale = params["axis_angular_scale"];
+
+    if (linearScale < 0 || linearScale > 1) {
+        logger.warn("'axis_linear_scale' should be in range (0, 1]. Setting to 1.0");
+        linearScale = 1.0;
+    }
+
+    if (angularScale < 0 || angularScale > 1) {
+        logger.warn("'axis_angular_scale' should be in range (0, 1]. Setting to 1.0");
+        angularScale = 1.0;
+    }
 
     // Calculate the maximum speeds
     const maxRPM = params["rpm_per_volt"] * params["max_motor_voltage"];
@@ -26,7 +41,7 @@ ROSNodeUtil.initializeNode(DEFAULT_NODE_NAME, process.argv.slice(2), REQUIRED_PA
     const maxAngular = KinematicsUtil.maxAngularVelocity(params["wheel_diameter"], maxRPM, params["wheel_to_wheel_distance"]);
 
     const cmdVelTopicName = params["output_topic"];
-    console.log("Publishing on topic: " + cmdVelTopicName);
+    logger.info(`Publishing on topic: ${cmdVelTopicName}`);
 
     let disableMsgSent = false;
 
@@ -48,8 +63,8 @@ ROSNodeUtil.initializeNode(DEFAULT_NODE_NAME, process.argv.slice(2), REQUIRED_PA
             }
         };
 
-        const scaledLinearSpeed = msg.axes[params["axis_linear"]] * maxLinear;
-        const scaledAngularSpeed = msg.axes[params["axis_angular"]] * maxAngular;
+        const scaledLinearSpeed = msg.axes[params["axis_linear"]] * maxLinear * linearScale;
+        const scaledAngularSpeed = msg.axes[params["axis_angular"]] * maxAngular * angularScale;
 
         if (msg.buttons[params["enable_button"]]) {
             twistMsg.linear.x = scaledLinearSpeed;

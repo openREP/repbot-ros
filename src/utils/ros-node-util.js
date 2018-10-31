@@ -6,6 +6,7 @@ const ParamUtil = require("./param-util");
  * @class NodeHandleAndParams
  * @property {NodeHandle} nodeHandle
  * @property {*} params
+ * @property {*} logger
  */
 
 /**
@@ -23,11 +24,14 @@ function initializeNode(defaultNodeName, cmdlineArgs, requiredParams) {
         const nh = RosNodeJS.nh;
         nh.setNamespace(nh.getNodeName());
 
-        return ParamUtil.getAllParams(nh, requiredParams)
+        const logger = RosNodeJS.log.generateLogger({name: nh.getNodeName()});
+
+        return ParamUtil.getAllParams(nh, requiredParams, logger)
         .then((paramValues) => {
             return {
                 nodeHandle: nh,
-                params: paramValues
+                params: paramValues,
+                logger
             }
         });
     });
