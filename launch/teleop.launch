@@ -3,7 +3,7 @@
     <arg name="joy_dev" default="/dev/input/js0" />
     <arg name="teleop_cmd_vel_topic" default="/teleop/cmd_vel" />
     <arg name="control_config_filepath" default="$(find repbot_ros)/config/$(arg joy_config).controls.yaml" />
-    
+
     <arg name="robot_config" default="romi" />
     <arg name="robot_config_filepath" default="$(find repbot_ros)/config/$(arg robot_config).robot.yaml" />
 
@@ -14,9 +14,8 @@
         <param name="autorepeat_rate" value="20" />
     </node>
 
-    <node pkg="repbot_ros" type="teleop_twist.js" name="repbot_teleop_twist" output="screen">
+    <node pkg="repbot_ros" type="teleop_twist.js" name="repbot_teleop_twist" output="screen" clear_params="true">
         <rosparam command="load" file="$(arg control_config_filepath)" />
-        <rosparam command="delete" param="hardware" />
         <rosparam command="load" file="$(arg robot_config_filepath)" />
         <!-- Set the output topic. Alternatively, remap /cmd_vel to whatever -->
         <param name="output_topic" value="$(arg teleop_cmd_vel_topic)" />

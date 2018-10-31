@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="repbot_ros" type="cmd_vel_mux.js" name="cmd_vel_mux" output="screen" clear_params="true">
+        <param name="block_duration_ms" type="int" value="5000"/>
+    </node>
+</launch>
