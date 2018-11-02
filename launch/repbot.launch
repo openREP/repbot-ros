@@ -1,0 +1,15 @@
+<!-- Full launch file -->
+<launch>
+    <arg name="robot_config" value="romi" />
+    <arg name="joy_dev" value="/dev/input/js0"/>
+    <arg name="joy_config" value="f710" />
+
+    <include file="$(find repbot_ros)/launch/base.launch">
+        <arg name="robot_config" value="$(arg robot_config)" />
+    </include>
+    <include file="$(find repbot_ros)/launch/cmd_vel_mux.launch" />
+    <include file="$(find repbot_ros)/launch/teleop.launch">
+        <arg name="joy_config" value="$(arg joy_config)"/>
+        <arg name="joy_dev" value="$(arg joy_dev)"/>
+    </include>
+</launch>
