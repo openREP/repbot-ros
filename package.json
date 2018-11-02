@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/openrep/repbot-ros#readme",
   "dependencies": {
-    "@openrep/repbot": "0.0.3",
+    "@openrep/repbot": "0.0.5",
     "rosnodejs": "^3.0.0"
   }
 }

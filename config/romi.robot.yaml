@@ -5,6 +5,15 @@ wheel_to_wheel_distance: 0.165 # in meters, center to center
 rpm_per_volt: 33.333
 max_motor_voltage: 6.75 # for the romi, this is 75% of 9V
 
+# component to port maps
+components:
+  motors:
+    left: 0
+    right: 1
+  encoders:
+    left: 0
+    right: 1
+
 # Control hardware
 hardware:
   devices:
@@ -13,7 +22,7 @@ hardware:
       device_config:
         address: 0x14
       port_mapping:
-        digital: 
+        digital:
           - channel: 0
             device_channel: 0
             direction: out
@@ -32,7 +41,7 @@ hardware:
           - channel: 5
             device_channel: 5
             direction: in
-          
+
         analog:
           - channel: 0
             device_channel: 0
@@ -40,21 +49,21 @@ hardware:
             device_channel: 1
           - channel: 2
             device_channel: 2
-        pwm: 
+        pwm:
           - channel: 0
             device_channel: 0
             type: motor
           - channel: 1
             device_channel: 1
             type: motor
-        encoder: 
+        encoder:
           - channel: 0
             device_channel: 0
           - channel: 1
             device_channel: 1
-        gyro: 
+        gyro:
           - channel: 0
             device_channel: 0
-        accelerometer: 
+        accelerometer:
           - channel: 0
             device_channel: 0

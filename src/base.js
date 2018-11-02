@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 const RepBot = require("@openrep/repbot");
-const RosNodeJS = require("rosnodejs");
-const ParamUtil = require("./utils/param-util");
 const KinematicsUtil = require("./utils/kinematics-util");
 const RobotConfigUtil = require("./utils/robot-config-util");
 const ROSNodeUtil = require("./utils/ros-node-util");
@@ -14,17 +12,32 @@ const REQUIRED_PARAMS = [
     { name: "wheel_to_wheel_distance", defaultVal: 0.05 },
     { name: "rpm_per_volt", defaultVal: 0 },
     { name: "max_motor_voltage", defaultVal: 0 },
-    { name: "hardware", defaultVal: {} }
+    { name: "hardware", defaultVal: {} },
+    { name: "components", defaultVal: {} },
 ];
 
 ROSNodeUtil.initializeNode(NODE_NAME, process.argv.slice(2), REQUIRED_PARAMS)
 .then((nodeAndParams) => {
-    const { nodeHandle, params } = nodeAndParams;
+    const { nodeHandle, params, logger } = nodeAndParams;
 
+    const componentMap = params["components"];
     const robotHardwareConfig = RobotConfigUtil.makeRepBotConfig(params["hardware"]);
 
-    // TODO If this fails, maybe fall back to a demo robot
-    const robot = new RepBot(robotHardwareConfig);
+    let robot;
+    try {
+        robot = new RepBot(robotHardwareConfig);
+    }
+    catch (err) {
+        logger.warn("Could not instantiate actual robot hardware. Attempting to instantiate debug robot");
+        try {
+            let debugConfig = RobotConfigUtil.makeDebugConfig(robotHardwareConfig);
+            robot = new RepBot(debugConfig);
+        }
+        catch (err) {
+            logger.error("Could not instantiate debug robot. Game over man");
+            process.exit(1);
+        }
+    }
 
     // TODO We should constantly calculate max RPM based on battery voltage
     const maxRPM = params["rpm_per_volt"] * params["max_motor_voltage"];
@@ -52,6 +65,16 @@ ROSNodeUtil.initializeNode(NODE_NAME, process.argv.slice(2), REQUIRED_PARAMS)
         const rightVpct = (rightVelocity / maxLinear) * 100;
 
         // Now pass it into the robot
-        // TODO Implement
+        if (componentMap.motors) {
+            if (componentMap.motors["left"] !== undefined) {
+                robot.motorWrite(componentMap.motors["left"], leftVpct);
+            }
+            if (componentMap.motors["right"] !== undefined) {
+                robot.motorWrite(componentMap.motors["right"], rightVpct);
+            }
+        }
     });
+
+    // Set up the robot loop to poll for data and publish accordingly
+
 });

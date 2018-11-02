@@ -1,6 +1,19 @@
+function makeDebugConfig(actualConfig) {
+    if (actualConfig.devices) {
+        Object.keys(actualConfig.devices).forEach((deviceId) => {
+            if (actualConfig.devices[deviceId].type) {
+                actualConfig.devices[deviceId].type = "debug";
+            }
+        });
+    }
+
+    return actualConfig;
+}
 
 function makeRepBotConfig(robotConfigYaml) {
-    const configObj = {};
+    const configObj = {
+        devices: {}
+    };
     if (!robotConfigYaml.devices) {
         return configObj;
     }
@@ -11,7 +24,7 @@ function makeRepBotConfig(robotConfigYaml) {
             type: deviceConfig.type,
             deviceConfig: deviceConfig.device_config,
         };
-        
+
         if (deviceConfig.port_mapping) {
             deviceObj.portMappings = {};
             const portTypes = ["digital", "analog", "pwm", "encoder", "gyro", "accelerometer"];
@@ -41,12 +54,13 @@ function makeRepBotConfig(robotConfigYaml) {
             });
         }
 
-        configObj[deviceConfig.name] = deviceObj;
+        configObj.devices[deviceConfig.name] = deviceObj;
     });
 
     return configObj;
 }
 
 module.exports = {
-    makeRepBotConfig
+    makeRepBotConfig,
+    makeDebugConfig,
 }

@@ -1,0 +1,8 @@
+<launch>
+    <arg name="robot_config" default="romi" />
+    <arg name="robot_config_filepath" default="$(find repbot_ros)/config/$(arg robot_config).robot.yaml" />
+
+    <node pkg="repbot_ros" type="base.js" name="repbot_base" output="screen">
+        <rosparam command="load" file="$(arg robot_config_filepath)" />
+    </node>
+</launch>
