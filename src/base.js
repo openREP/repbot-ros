@@ -59,9 +59,13 @@ ROSNodeUtil.initializeNode(NODE_NAME, process.argv.slice(2), REQUIRED_PARAMS)
         // Right wheel velocity (m/s) =
         // linear_speed - angular_speed
 
+        // TODO Make this generic
+        let angular = msg.angular.z;
+        angular = -angular; // This should come from a param
+
         // We'll assume that we can just sum/subtract the linear and angular speeds
-        const leftVelocity = KinematicsUtil.limitWheelVelocity(msg.linear.x + msg.angular.z, maxLinear);
-        const rightVelocity = KinematicsUtil.limitWheelVelocity(msg.linear.x - msg.angular.z, maxLinear);
+        const leftVelocity = KinematicsUtil.limitWheelVelocity(msg.linear.x + angular, maxLinear);
+        const rightVelocity = KinematicsUtil.limitWheelVelocity(msg.linear.x - angular, maxLinear);
 
         // Assuming linear relationship between %-Vin and velocity
         const leftVpct = (leftVelocity / maxLinear) * 100;
