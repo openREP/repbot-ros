@@ -6,3 +6,5 @@ axis_linear_scale: 0.75
 axis_angular_scale: 0.5
 
 enable_button: 4 # left shoulder
+
+square_inputs: true

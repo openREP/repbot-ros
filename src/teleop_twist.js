@@ -12,6 +12,7 @@ const REQUIRED_PARAMS = [
     { name: "axis_angular", defaultVal: 1 },
     { name: "axis_angular_scale", defaultVal: 1.0 },
     { name: "enable_button", defaultVal: 0 },
+    { name: "square_inputs", defaultVal: false },
     { name: "wheel_diameter", defaultVal: 0.01 },
     { name: "wheel_to_wheel_distance", defaultVal: 0.05 },
     { name: "rpm_per_volt", defaultVal: 0 },
@@ -66,8 +67,16 @@ ROSNodeUtil.initializeNode(DEFAULT_NODE_NAME, process.argv.slice(2), REQUIRED_PA
             }
         };
 
-        const scaledLinearSpeed = msg.axes[params["axis_linear"]] * maxLinear * linearScale;
-        const scaledAngularSpeed = msg.axes[params["axis_angular"]] * maxAngular * angularScale;
+        let linearAxisValue = msg.axes[params["axis_linear"]];
+        let angularAxisValue = msg.axes[params["axis_angular"]];
+
+        if (params["square_inputs"]) {
+            linearAxisValue = squareInput(linearAxisValue);
+            angularAxisValue = squareInput(angularAxisValue);
+        }
+
+        const scaledLinearSpeed = linearAxisValue * maxLinear * linearScale;
+        const scaledAngularSpeed = angularAxisValue * maxAngular * angularScale;
 
         if (msg.buttons[params["enable_button"]]) {
             twistMsg.linear.x = scaledLinearSpeed;
@@ -84,5 +93,9 @@ ROSNodeUtil.initializeNode(DEFAULT_NODE_NAME, process.argv.slice(2), REQUIRED_PA
             }
         }
     });
-})
+});
 
+function squareInput(input) {
+    const multiplier = (input < 0) ? -1 : 1;
+    return (input * input) * multiplier;
+}
