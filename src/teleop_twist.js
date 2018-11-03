@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+/**
+ * Provides a sensor_msgs/Joy -> geometry_msgs/Twist message
+ */
 const KinematicsUtil = require("./utils/kinematics-util");
 const ROSNodeUtil = require("./utils/ros-node-util");
 

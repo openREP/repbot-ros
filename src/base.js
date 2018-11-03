@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+/**
+ * Base repbot
+ */
 const RepBot = require("@openrep/repbot");
 const KinematicsUtil = require("./utils/kinematics-util");
 const RobotConfigUtil = require("./utils/robot-config-util");

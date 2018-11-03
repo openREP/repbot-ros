@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+/**
+ * Manages multiple cmd_vel inputs
+ */
 const ROSNodeUtil = require("./utils/ros-node-util");
 
 const REQUIRED_PARAMS = [
